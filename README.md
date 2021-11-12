@@ -14,7 +14,7 @@ python -m venv <your-env-name>
 ```
 5. Activate your virtual env by running the following code:
 ```
-source bin/activate
+cd <path-to-your-venv-directory> && source bin/activate
 ```
 6. Run:
 
