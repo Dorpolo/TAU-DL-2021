@@ -5,7 +5,7 @@ import numpy as np
 import numpy.typing as npt
 
 from layer import Layer
-from utils import *
+from utils import ReLU, d_ReLU, mse, d_mse, sigmoid, d_sigmoid
 
 
 class FullyConnectedLayer(Layer):
