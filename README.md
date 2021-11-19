@@ -3,13 +3,13 @@ Homework repository for TAU DL 2021 students collaboration, including all code p
 explained answers. This Repo is open and publicly shared.
     
 ### Please note
-    * The following terminal commands are according to Mac operating system, check online for 
-      PC alternatives for each command.
-    * Please keep the project convension in terms of folder/ files management as follow
-      -- HW<i>
-        -- Q<j>
-           -- <your-name>
-              -- relevant python files
+* The following terminal commands are according to Mac operating system, check online for 
+  PC alternatives for each command.
+* Please keep the project convension in terms of folder/ files management as follow
+  -- HW<i>
+    -- Q<j>
+       -- <your-name>
+          -- relevant python files
 
 ### Quick Start
 
