@@ -92,34 +92,34 @@ class Network:
             print(f"Epoch {i + 1}/{epochs} >> error={err}")
 
 
-    def train_hw1_net(activation_function: str = 'ReLU') -> None:
-        """
-        Train the required net from HW1 Q2. During the training pipeline all required
-        outputs will be printed.
-        """
-        assert activation_function in ACT_FUNCTIONS.keys(), \
-            "The provided activation function is available"
+def train_hw1_net(activation_function: str = 'ReLU') -> None:
+    """
+    Train the required net from HW1 Q2. During the training pipeline all required
+    outputs will be printed.
+    """
+    assert activation_function in ACT_FUNCTIONS.keys(), \
+        "The provided activation function is available"
 
-        X_TRAIN = np.array([[[1, 2, -1]]])
-        Y_TRAIN = np.array([[[0]]])
-        ACT_FUNC = ACT_FUNCTIONS[activation_function]
+    X_TRAIN = np.array([[[1, 2, -1]]])
+    Y_TRAIN = np.array([[[0]]])
+    ACT_FUNC = ACT_FUNCTIONS[activation_function]
 
-        net_hw1 = Network()
-        net_hw1.add(FullyConnectedLayer(3, 2, hw_1_init=True))
-        net_hw1.add(ActivationLayer(*ACT_FUNC))
-        net_hw1.add(FullyConnectedLayer(2, 2, hw_1_init=True))
-        net_hw1.add(ActivationLayer(*ACT_FUNC))
-        net_hw1.add(FullyConnectedLayer(2, 1, hw_1_init=True))
+    net_hw1 = Network()
+    net_hw1.add(FullyConnectedLayer(3, 2, hw_1_init=True))
+    net_hw1.add(ActivationLayer(*ACT_FUNC))
+    net_hw1.add(FullyConnectedLayer(2, 2, hw_1_init=True))
+    net_hw1.add(ActivationLayer(*ACT_FUNC))
+    net_hw1.add(FullyConnectedLayer(2, 1, hw_1_init=True))
 
-        net_hw1.use(mse, d_mse)
-        net_hw1.fit(X_TRAIN, Y_TRAIN, epochs=EPOCHS, lr=LEARNING_RATE)
+    net_hw1.use(mse, d_mse)
+    net_hw1.fit(X_TRAIN, Y_TRAIN, epochs=EPOCHS, lr=LEARNING_RATE)
 
-        ctr = 1
-        for i, layer in enumerate(net_hw1.layers):
-            if i in [0, 2, 4]:
-                sep = f"{'-' * 13}"
-                print(f"{sep}\n{' ' * 3}Layer {ctr}\n{sep}\nWeights:\n{layer.weights}\nBiases:\n{layer.bias}\n")
-                ctr += 1
+    ctr = 1
+    for i, layer in enumerate(net_hw1.layers):
+        if i in [0, 2, 4]:
+            sep = f"{'-' * 13}"
+            print(f"{sep}\n{' ' * 3}Layer {ctr}\n{sep}\nWeights:\n{layer.weights}\nBiases:\n{layer.bias}\n")
+            ctr += 1
 
 
 if __name__ == '__main__':
