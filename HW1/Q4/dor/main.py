@@ -1,7 +1,7 @@
 import random
 import numpy as np
 
-from utils import MSE, Linear
+from utils import MSE, Linear, beautiful_sep
 
 
 def gradient_descent(x,
@@ -64,8 +64,8 @@ def stochastic_gradient_descent(x,
             linear.backward(gradient_from_loss)
             linear.update(lr)
 
-        if epoch % 5 == 0:
-            print(f'Epoch {epoch}, loss {loss_value},  diff {diff}')
+            if epoch % 5 == 0:
+                print(f'Epoch {epoch}, batch {j}, loss {loss_value},  diff {diff}')
 
         epoch += 1
         epoch_loss.update({epoch: loss_value})
@@ -79,7 +79,29 @@ def moment_gradient_descent(x,
                             conv_th: float = 1e-5,
                             lr: float = 0.01,
                             gamma: float = 0.3):
-    return NotImplementedError
+    diff, epoch = 100, 0
+    epoch_loss, epoch_loss_diff = {}, {}
+    v_w_history, v_b_history = {0: 0}, {0: 0}
+
+    loss = MSE()
+    linear = Linear()
+
+    while diff > conv_th:
+        y_pred = linear(x)
+        loss_value = loss(y_pred, y_true)
+        epoch_loss.update({epoch: loss_value})
+        diff = abs(epoch_loss[epoch] - epoch_loss[epoch - 1]) if len(epoch_loss) > 1 else abs(loss_value)
+        epoch_loss_diff.update({epoch: diff})
+
+        if epoch % 5 == 0:
+            print(f'Epoch {epoch}, loss {loss_value},  diff {diff}')
+
+        gradient_from_loss = loss.backward()
+        linear.backward(gradient_from_loss)
+        v_w, v_b = linear.update_moment(lr, gamma=gamma, v_w=v_w_history[epoch], v_b=v_b_history[epoch])
+        epoch += 1
+        v_w_history[epoch] = v_w
+        v_b_history[epoch] = v_b
 
 
 if __name__ == '__main__':
@@ -96,12 +118,16 @@ if __name__ == '__main__':
     LEARNING_RATE = 0.1
     EPOCHS = 1
 
+    beautiful_sep('Gradient Descent')
+
     # Gradient Descent
     gradient_descent(gd_type='default',
                      x=X,
                      y_true=Y_TRUE,
                      lr=LEARNING_RATE,
                      conv_th=CONV_TH)
+
+    beautiful_sep('Exponential Gradient Descent')
 
     # Exponential Gradient Descent
     gradient_descent(gd_type='exponential',
@@ -111,6 +137,8 @@ if __name__ == '__main__':
                      conv_th=CONV_TH,
                      decay_rate=0.8)
 
+    beautiful_sep('Stochastic Gradient Descent')
+
     # Stochastic Gradient Descent
     stochastic_gradient_descent(x=X,
                                 y_true=Y_TRUE,
@@ -118,6 +146,11 @@ if __name__ == '__main__':
                                 lr=LEARNING_RATE,
                                 batch_size=100)
 
+    beautiful_sep('Moment Gradient Descent')
+
     # Moment Gradient Descent
     moment_gradient_descent(x=X,
-                            y_true=Y_TRUE)
+                            y_true=Y_TRUE,
+                            lr=LEARNING_RATE,
+                            conv_th=CONV_TH,
+                            gamma=0.8)
