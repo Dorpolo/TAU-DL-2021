@@ -1,4 +1,5 @@
-# TAU-DL-2021
+# TAU-DL-2021 ![alt text](https://pbs.twimg.com/media/FBTfD1IXMAErrEe.jpg)
+
 Homework repository for TAU DL 2021 students collaboration, including all code practical tasks, shared components and 
 explained answers. This Repo is open and publicly shared.
     
