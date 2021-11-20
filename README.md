@@ -1,4 +1,4 @@
-<img src="https://pbs.twimg.com/media/FBTfD1IXMAErrEe.jpg" alt="alt text" width="100" height="100"> 
+<img src="https://pbs.twimg.com/media/FBTfD1IXMAErrEe.jpg" alt="alt text" width="200" height="200"> 
 
 # TAU-DL-2021 
 
