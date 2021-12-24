@@ -94,7 +94,7 @@ class Network:
 
 def train_hw1_net(activation_function: str = 'ReLU') -> None:
     """
-    Train the required net from HW1 Q2. During the training pipeline all required
+    Train the required net from HW1 Q4. During the training pipeline all required
     outputs will be printed.
     """
     assert activation_function in ACT_FUNCTIONS.keys(), \

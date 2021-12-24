@@ -1,5 +1,5 @@
-import random
 import numpy as np
+import random
 
 from utils import MSE, Linear, beautiful_sep
 
@@ -14,14 +14,14 @@ def gradient_descent(x,
     epoch_loss, epoch_loss_diff = {}, {}
 
     loss = MSE()
-    linear = Linear()
+    linear = Linear(input_dim=4, num_hidden=1)
 
     while diff > conv_th:
         y_pred = linear(x)
         loss_value = loss(y_pred, y_true)
-        epoch_loss.update({epoch: loss_value})
+        epoch_loss[epoch] = loss_value
         diff = abs(epoch_loss[epoch] - epoch_loss[epoch - 1]) if len(epoch_loss) > 1 else abs(loss_value)
-        epoch_loss_diff.update({epoch: diff})
+        epoch_loss_diff[epoch] = diff
 
         if epoch % 5 == 0:
             print(f'Epoch {epoch}, loss {loss_value},  diff {diff}')
@@ -68,10 +68,10 @@ def stochastic_gradient_descent(x,
                 print(f'Epoch {epoch}, batch {j}, loss {loss_value},  diff {diff}')
 
         epoch += 1
-        epoch_loss.update({epoch: loss_value})
+        epoch_loss[epoch] = loss_value
         diff = abs(epoch_loss[epoch] - epoch_loss[epoch - 1]) \
             if len(epoch_loss) > 1 else abs(loss_value)
-        epoch_loss_diff.update({epoch: diff})
+        epoch_loss_diff[epoch] = diff
 
 
 def moment_gradient_descent(x,
@@ -89,9 +89,9 @@ def moment_gradient_descent(x,
     while diff > conv_th:
         y_pred = linear(x)
         loss_value = loss(y_pred, y_true)
-        epoch_loss.update({epoch: loss_value})
+        epoch_loss[epoch] = loss_value
         diff = abs(epoch_loss[epoch] - epoch_loss[epoch - 1]) if len(epoch_loss) > 1 else abs(loss_value)
-        epoch_loss_diff.update({epoch: diff})
+        epoch_loss_diff[epoch] = diff
 
         if epoch % 5 == 0:
             print(f'Epoch {epoch}, loss {loss_value},  diff {diff}')
@@ -112,8 +112,8 @@ if __name__ == '__main__':
 
     coef = np.array([Y_COEF])
     X = np.random.uniform(0, 1, DIM)
-    eps = np.random.normal(MU, SIG, DIM[0])
-    Y_TRUE = np.array([(X @ coef.T)[:, 0] + eps]).T
+    eps = np.random.normal(MU, SIG, DIM[0]).reshape(DIM[0], 1)
+    Y_TRUE = X @ coef.T + eps
 
     LEARNING_RATE = 0.1
     EPOCHS = 1
@@ -127,30 +127,30 @@ if __name__ == '__main__':
                      lr=LEARNING_RATE,
                      conv_th=CONV_TH)
 
-    beautiful_sep('Exponential Gradient Descent')
-
-    # Exponential Gradient Descent
-    gradient_descent(gd_type='exponential',
-                     x=X,
-                     y_true=Y_TRUE,
-                     lr=LEARNING_RATE,
-                     conv_th=CONV_TH,
-                     decay_rate=0.8)
-
-    beautiful_sep('Stochastic Gradient Descent')
-
-    # Stochastic Gradient Descent
-    stochastic_gradient_descent(x=X,
-                                y_true=Y_TRUE,
-                                conv_th=CONV_TH,
-                                lr=LEARNING_RATE,
-                                batch_size=100)
-
-    beautiful_sep('Moment Gradient Descent')
-
-    # Moment Gradient Descent
-    moment_gradient_descent(x=X,
-                            y_true=Y_TRUE,
-                            lr=LEARNING_RATE,
-                            conv_th=CONV_TH,
-                            gamma=0.8)
+    # beautiful_sep('Exponential Gradient Descent')
+    #
+    # # Exponential Gradient Descent
+    # gradient_descent(gd_type='exponential',
+    #                  x=X,
+    #                  y_true=Y_TRUE,
+    #                  lr=LEARNING_RATE,
+    #                  conv_th=CONV_TH,
+    #                  decay_rate=0.8)
+    #
+    # beautiful_sep('Stochastic Gradient Descent')
+    #
+    # # Stochastic Gradient Descent
+    # stochastic_gradient_descent(x=X,
+    #                             y_true=Y_TRUE,
+    #                             conv_th=CONV_TH,
+    #                             lr=LEARNING_RATE,
+    #                             batch_size=100)
+    #
+    # beautiful_sep('Moment Gradient Descent')
+    #
+    # # Moment Gradient Descent
+    # moment_gradient_descent(x=X,
+    #                         y_true=Y_TRUE,
+    #                         lr=LEARNING_RATE,
+    #                         conv_th=CONV_TH,
+    #                         gamma=0.8)
